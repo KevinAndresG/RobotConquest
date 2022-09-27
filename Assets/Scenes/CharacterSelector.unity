@@ -159,7 +159,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 800}
+  m_SizeDelta: {x: 300, y: 1073.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &82867241
 MonoBehaviour:
@@ -471,6 +471,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoinText: {fileID: 1016551260}
+  selector: {fileID: 82867241}
+  characterSelect:
+  - {fileID: 1449589930}
+  - {fileID: 1638419851}
+  - {fileID: 1834701888}
+  selectButton: {fileID: 0}
+  buyButton: {fileID: 352608680}
+  offsetButtons: {x: 0, y: -388, z: 0}
 --- !u!1 &208409148
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +718,7 @@ RectTransform:
   m_GameObject: {fileID: 230714080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.975047, y: 2.975047, z: 2.975047}
+  m_LocalScale: {x: 2.9750473, y: 2.9750473, z: 2.9750473}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 593853590}
@@ -718,7 +726,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: 5}
+  m_AnchoredPosition: {x: 132.00006, y: 4.9999695}
   m_SizeDelta: {x: 70, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &230714082
@@ -846,7 +854,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 352608681}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 172515694}
+        m_TargetAssemblyTypeName: CharacterSelectorMenu, Assembly-CSharp
+        m_MethodName: buyCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &352608681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,7 +988,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 376083066}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 172515694}
+        m_TargetAssemblyTypeName: CharacterSelectorMenu, Assembly-CSharp
+        m_MethodName: SelectCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &376083066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1564,7 +1596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.010007, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &954720613
@@ -1949,7 +1981,7 @@ GameObject:
   - component: {fileID: 1449589932}
   m_Layer: 5
   m_Name: Mon
-  m_TagString: Untagged
+  m_TagString: mon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1971,7 +2003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25679812, y: 0.5}
   m_AnchorMax: {x: 0.25679812, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: 60}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 223, y: 539}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449589932
@@ -2017,7 +2049,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1449589933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 172515694}
+        m_TargetAssemblyTypeName: CharacterSelectorMenu, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1449589933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2146,7 +2190,7 @@ GameObject:
   - component: {fileID: 1638419853}
   m_Layer: 5
   m_Name: Lin
-  m_TagString: Untagged
+  m_TagString: lin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2215,7 +2259,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1638419854}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 172515694}
+        m_TargetAssemblyTypeName: CharacterSelectorMenu, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1638419854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2281,7 +2337,7 @@ RectTransform:
   m_GameObject: {fileID: 1655276609}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.975047, y: 2.975047, z: 2.975047}
+  m_LocalScale: {x: 2.9750469, y: 2.9750469, z: 2.9750469}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 165243609}
@@ -2289,7 +2345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: 5}
+  m_AnchoredPosition: {x: 131.99994, y: 4.9999695}
   m_SizeDelta: {x: 70, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1655276611
@@ -2348,7 +2404,7 @@ GameObject:
   - component: {fileID: 1834701890}
   m_Layer: 5
   m_Name: Kag
-  m_TagString: Untagged
+  m_TagString: kag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2417,7 +2473,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1834701891}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 172515694}
+        m_TargetAssemblyTypeName: CharacterSelectorMenu, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1834701891
 MonoBehaviour:
   m_ObjectHideFlags: 0

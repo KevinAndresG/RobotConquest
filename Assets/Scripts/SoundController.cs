@@ -28,6 +28,11 @@ public class SoundController : MonoBehaviour
     public AudioClip effect3;
     public AudioClip effect4;
     public AudioClip effect5;
+    public AudioClip effect6;
+    public AudioClip effect7;
+    public AudioClip effect8;
+    public AudioClip effect9;
+    public AudioClip effect10;
     private void Awake()
     {
         if (Instance == null)
@@ -56,13 +61,18 @@ public class SoundController : MonoBehaviour
         scenes[4] = "LosScreen";
         scenes[5] = "SoundMenu";
         scenes[6] = "PauseMenu";
-        effects = new AudioClip[6];
+        effects = new AudioClip[11];
         effects[0] = effect0;
         effects[1] = effect1;
         effects[2] = effect2;
         effects[3] = effect3;
         effects[4] = effect4;
         effects[5] = effect5;
+        effects[6] = effect6;
+        effects[7] = effect7;
+        effects[8] = effect8;
+        effects[9] = effect9;
+        effects[10] = effect10;
     }
     void Update()
     {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6982179875082369376}
   - component: {fileID: 7827115488481628239}
   - component: {fileID: -2400242986570090870}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player_Bullet2.0
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
+  enemy1: {fileID: 0}
 --- !u!114 &7827115488481628239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

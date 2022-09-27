@@ -7,15 +7,13 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public TextMeshProUGUI CoinText;
-    public Animator LifeIndicator;
     public Toggle doubleJumpToggle;
     int Player_Health;
     Rigidbody2D rb;
     [SerializeField] Vector2 bounceVel;
     CapsuleCollider2D playerCapsule;
     Animator anim;
-    public bool DoubleJump;
+    // public bool DoubleJump;
     public GameObject doubleJ;
     public LayerMask floorLayer;
     public float distance;
@@ -32,32 +30,75 @@ public class PlayerController : MonoBehaviour
     Scene actualScene;
     public const int MAX_HEALTH = 4;
 
+    [SerializeField] Transform aim;
+    public Vector2 facingDirection;
+    [SerializeField] Camera cam;
+    [SerializeField] float aimOffset;
+    [SerializeField] GameObject bullet;
+    float lastShoot;
+    public float canShoot;
+    [SerializeField] Transform shootStart;
+    Timer timer;
+    
+
+
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        playerCapsule = GetComponent<CapsuleCollider2D>();
         speed = 10f;
         jumpForce = 73f;
         coinsCollected = 0;
-        DoubleJump = false;
+        // DoubleJump = false;
         respawn = transform.position;
         Player_Health = 4;
-        TimerTrigger.transform.position = transform.position;
         LoockingRight = true;
         distance = 0.1f;
         actualScene = SceneManager.GetActiveScene();
         PlayerPrefs.SetInt("ActualScene", actualScene.buildIndex);
         SoundController.Instance.Music(actualScene.name);
         savedSpeed = speed;
+        TimerTrigger = GameObject.FindGameObjectWithTag("TimerTrigger");
+        playerCapsule = GetComponent<CapsuleCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        TimerTrigger.transform.position = transform.position;
+        timer = GetComponent<Timer>();
+    }
+    public void StartElements()
+    {
+        cam = Camera.main;
+        doubleJ = GameObject.FindGameObjectWithTag("DoubleJump");
+        canShoot = 0.2f;
+
     }
     void Update()
     {
+        // Aim Movement
+        facingDirection = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        aim.position = transform.position + (Vector3)facingDirection.normalized * aimOffset;
+
+        if (Input.GetButton("Fire1") && Time.time > lastShoot + canShoot)
+        {
+            lastShoot = Time.time;
+            // anim.SetBool("Shooting", true);
+            float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Instantiate(bullet, shootStart.position, targetRotation);
+            SoundController.Instance.PlayEffect(10);
+        }
+        // if (Input.GetButtonUp("Fire1"))
+        // {
+        //     anim.SetBool("Shooting", false);
+        // }
+        if (aim.position.x < transform.position.x && LoockingRight || LoockingRight == false && aim.position.x > transform.position.x)
+        {
+            LoockingRight = !LoockingRight;
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
+        }
         horizontal = Input.GetAxisRaw("Horizontal");
         anim.SetBool("Run", horizontal != 0.0f);
-        if (DoubleJump)
+        if (UIManager.Instance.DoubleJump)
         {
-            doubleJumpToggle.isOn = true;
+            UIManager.Instance.doubleJumpToggle.isOn = true;
         }
         if (Input.GetButtonDown("Jump"))
         {
@@ -65,10 +106,10 @@ public class PlayerController : MonoBehaviour
             {
                 Jump();
             }
-            else if (DoubleJump)
+            else if (UIManager.Instance.DoubleJump)
             {
                 Jump();
-                DoubleJump = false;
+                UIManager.Instance.DoubleJump = false;
             }
         }
         // Check if the player falls off the map
@@ -77,13 +118,13 @@ public class PlayerController : MonoBehaviour
             Player_Health--;
             SoundController.Instance.PlayEffect(4);
             transform.position = respawn;
-            LifeIndicator.SetInteger("Player_Life", Player_Health);
+            UIManager.Instance.UpdateHealth(Player_Health);
         }
         // Check if the player is dead
         if (Player_Health == 0)
         {
             // SoundController.Instance.audioSource[0].Stop();
-            // SoundController.Instance.Music(1);
+            //  SoundController.Instance.Music(1);
             SoundController.Instance.PlayEffect(3);
             PlayerPrefs.SetString("sceneName", SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("LosScreen");
@@ -92,16 +133,12 @@ public class PlayerController : MonoBehaviour
         if (LoockingRight && horizontal < 0 || LoockingRight == false && horizontal > 0)
         {
             LoockingRight = !LoockingRight;
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
             // transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             // transform.Rotate(new Vector3(0, 180, 0));
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
         }
-        // Turn on and Turn off the double jump
-        if (DoubleJump == false)
-        {
-            doubleJumpToggle.isOn = false;
-        }
-        if (DoubleJump == false && IsGrounded)
+        
+        if (UIManager.Instance.DoubleJump == false && IsGrounded)
         {
             doubleJ.SetActive(true);
         }
@@ -126,7 +163,7 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             coinsCollected++;
             PointsController.Instance.CoinCounter(1);
-            CoinText.text = $"{coinsCollected}";
+            UIManager.Instance.UpdateScore(coinsCollected);
             SoundController.Instance.PlayEffect(1);
         }
         if (other.tag == "Goal")
@@ -143,18 +180,21 @@ public class PlayerController : MonoBehaviour
             {
                 Player_Health = MAX_HEALTH;
             }
-            LifeIndicator.SetInteger("Player_Life", Player_Health);
+            UIManager.Instance.UpdateHealth(Player_Health);
+            SoundController.Instance.PlayEffect(7);
         }
         if (other.tag == "Full_Life")
         {
             Player_Health = MAX_HEALTH;
             Destroy(other.gameObject);
-            LifeIndicator.SetInteger("Player_Life", Player_Health);
+            UIManager.Instance.UpdateHealth(Player_Health);
+            SoundController.Instance.PlayEffect(8);
         }
         if (other.tag == "DoubleJump")
         {
-            DoubleJump = true;
+            UIManager.Instance.DoubleJump = true;
             other.gameObject.SetActive(false);
+            SoundController.Instance.PlayEffect(6);
         }
         if (other.tag == "FlyingHead" || other.tag == "Crusher")
         {
@@ -166,9 +206,6 @@ public class PlayerController : MonoBehaviour
             TakeDamage(transform.position);
             SoundController.Instance.PlayEffect(4);
         }
-    }
-    void OnTriggerStay2D(Collider2D other)
-    {
         // the speed zone enter
         if (other.tag == "SpeedZone")
         {
@@ -182,12 +219,16 @@ public class PlayerController : MonoBehaviour
         {
             speed = savedSpeed;
         }
+        if (other.tag == "TimerTrigger")
+        {
+            timer.enabled = true;
+        }
     }
     // take the damage and bounce
     public void TakeDamage(Vector2 damagePosition)
     {
         Player_Health--;
-        LifeIndicator.SetInteger("Player_Life", Player_Health);
+        UIManager.Instance.UpdateHealth(Player_Health);
         Bounce(damagePosition);
     }
     public void Bounce(Vector2 hitPoint)

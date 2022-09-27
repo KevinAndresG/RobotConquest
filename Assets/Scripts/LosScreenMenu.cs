@@ -24,5 +24,6 @@ public class LosScreenMenu : MonoBehaviour
         SoundController.Instance.Music(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneName"));
         SoundController.Instance.PlayEffect(5);
+        GameManager.Instance.inGame = true;
     }
 }

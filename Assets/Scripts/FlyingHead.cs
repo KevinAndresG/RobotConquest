@@ -14,6 +14,7 @@ public class FlyingHead : MonoBehaviour
         if (lifes <= 0)
         {
             Instantiate(deathEffect, transform.position, Quaternion.identity);
+            SoundController.Instance.PlayEffect(9);
             Destroy(gameObject);
         }
     }

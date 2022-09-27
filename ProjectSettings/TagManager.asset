@@ -19,6 +19,12 @@ TagManager:
   - Bullet
   - FlyingHead
   - Crusher
+  - mon
+  - lin
+  - kag
+  - SpawnPoint
+  - TimerTrigger
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
@@ -29,7 +35,7 @@ TagManager:
   - Floor
   - Player
   - Zone
-  - 
+  - Bullet
   - 
   - 
   - 

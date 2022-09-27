@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class WinScreenMenu : MonoBehaviour
 {
     public TextMeshProUGUI CoinText;
+    public Text TimeText;
     int CoinsPerLevel;
     void Start()
     {
@@ -14,6 +15,7 @@ public class WinScreenMenu : MonoBehaviour
         PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + CoinsPerLevel);
         CoinText.text = $"{CoinsPerLevel}";
         SoundController.Instance.Music(SceneManager.GetActiveScene().name);
+        TimeText.text = $"{PlayerPrefs.GetString("Time")}";
     }
     public void X()
     {
@@ -32,6 +34,7 @@ public class WinScreenMenu : MonoBehaviour
         // SoundController.Instance.audioSource[0].Stop();
         // SoundController.Instance.Music(0);
         SceneManager.LoadScene(PlayerPrefs.GetInt("ActualScene") + 1);
+        GameManager.Instance.inGame = true;
         SoundController.Instance.PlayEffect(5);
     }
 }

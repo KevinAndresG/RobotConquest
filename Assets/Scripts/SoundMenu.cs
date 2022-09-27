@@ -19,6 +19,7 @@ public class SoundMenu : MonoBehaviour
     {
         SceneManager.LoadScene(PlayerPrefs.GetString("ActualSceneN"));
         Time.timeScale = 1f;
+        GameManager.Instance.inGame = true;
         SoundController.Instance.PlayEffect(5);
     }
 

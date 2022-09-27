@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Text TimerText;
+    string timer;
     float time;
 
     void Update()
@@ -11,6 +11,8 @@ public class Timer : MonoBehaviour
         time += Time.deltaTime;
         float minutes = ((int)time / 60);
         float seconds = (time % 60);
-        TimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timer = string.Format("{0:00}:{1:00}", minutes, seconds);
+        UIManager.Instance.UpdateTimer(timer);
+        PlayerPrefs.SetString("Time", string.Format("{0:00}:{1:00}", minutes, seconds));
     }
 }

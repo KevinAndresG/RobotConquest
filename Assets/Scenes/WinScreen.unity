@@ -1371,6 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoinText: {fileID: 1555785724}
+  TimeText: {fileID: 862894702}
 --- !u!1 &1765425406
 GameObject:
   m_ObjectHideFlags: 0
