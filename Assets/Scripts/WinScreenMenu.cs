@@ -8,6 +8,9 @@ public class WinScreenMenu : MonoBehaviour
     public TextMeshProUGUI CoinText;
     public Text TimeText;
     int CoinsPerLevel;
+    [SerializeField] Image playerWin;
+    [SerializeField] Image[] Characters;
+    Image currentCharacter;
     void Start()
     {
         CoinText.text = $"{PointsController.Instance.points}";
@@ -16,6 +19,8 @@ public class WinScreenMenu : MonoBehaviour
         CoinText.text = $"{CoinsPerLevel}";
         SoundController.Instance.Music(SceneManager.GetActiveScene().name);
         TimeText.text = $"{PlayerPrefs.GetString("Time")}";
+        currentCharacter = Characters[PlayerPrefs.GetInt("CharacterSelected")];
+        playerWin.sprite = currentCharacter.sprite;
     }
     public void X()
     {

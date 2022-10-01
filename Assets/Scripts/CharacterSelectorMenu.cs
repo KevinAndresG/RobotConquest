@@ -7,7 +7,7 @@ public class CharacterSelectorMenu : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI CoinText;
     [SerializeField] Image selector;
-    [SerializeField] GameObject[] characterSelect;
+    [SerializeField] GameObject[] characters;
     [SerializeField] Button selectButton;
     [SerializeField] Button buyButton;
     GameObject coinImage;
@@ -15,18 +15,28 @@ public class CharacterSelectorMenu : MonoBehaviour
     [SerializeField] Vector3 offsetButtons;
     int price;
     int index;
-
+    int characterSize;
+    // GameObject leftArrow;
+    // GameObject rightArrow;
     void Start()
     {
-        if (!PlayerPrefs.HasKey("CharacterSelected"))
+        if (!PlayerPrefs.HasKey("CharacterSelected") || !PlayerPrefs.HasKey("TotalCoins"))
         {
-            PlayerPrefs.SetFloat("CharacterSelected", 0);
+            if (!PlayerPrefs.HasKey("TotalCoins"))
+            {
+                PlayerPrefs.SetInt("TotalCoins", 0);
+            }
+            if (!PlayerPrefs.HasKey("CharacterSelected"))
+            {
+                PlayerPrefs.SetFloat("CharacterSelected", 0);
+                index = 0;
+            }
             Load();
         }
         else
             Load();
-        CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
         SoundController.Instance.Music(SceneManager.GetActiveScene().name);
+        characterSize = characters.Length;
     }
     public void X()
     {
@@ -36,12 +46,13 @@ public class CharacterSelectorMenu : MonoBehaviour
     public void Select(int characterIndex)
     {
         index = characterIndex;
-        selector.transform.position = characterSelect[characterIndex].transform.position;
-        if (characterSelect[characterIndex].transform.childCount > 0)
+        selector.transform.position = characters[characterIndex].transform.position + offsetButtons;
+        if (characters[characterIndex].transform.childCount > 0)
         {
             buyButton.gameObject.SetActive(true);
-            buyButton.transform.position = characterSelect[characterIndex].transform.position + offsetButtons;
-            coinImage = characterSelect[characterIndex].transform.GetChild(0).gameObject;
+            selectButton.gameObject.SetActive(false);
+            buyButton.transform.position = characters[characterIndex].transform.position + offsetButtons;
+            coinImage = characters[characterIndex].transform.GetChild(0).gameObject;
             if (coinImage.transform.childCount > 0)
             {
                 coinValue = coinImage.transform.GetChild(0).gameObject;
@@ -49,11 +60,16 @@ public class CharacterSelectorMenu : MonoBehaviour
 
             }
         }
-        else if (characterSelect[characterIndex].transform.childCount <= 0)
+        else if (characters[characterIndex].transform.childCount <= 0)
         {
-            selectButton.gameObject.SetActive(true);
-            selectButton.transform.position = characterSelect[characterIndex].transform.position + offsetButtons;
             buyButton.gameObject.SetActive(false);
+            if (characterIndex == PlayerPrefs.GetInt("CharacterSelected"))
+            {
+                selectButton.gameObject.SetActive(false);
+            }
+            else
+                selectButton.gameObject.SetActive(true);
+            selectButton.transform.position = characters[characterIndex].transform.position + offsetButtons;
         }
     }
     public void buyCharacter()
@@ -61,25 +77,74 @@ public class CharacterSelectorMenu : MonoBehaviour
         if (PlayerPrefs.GetInt("TotalCoins") >= price)
         {
             PlayerPrefs.SetInt("TotalCoins", (PlayerPrefs.GetInt("TotalCoins") - price));
-            if (characterSelect[index].transform.GetChild(0).gameObject != null)
+            if (characters[index].transform.GetChild(0).gameObject != null)
             {
-                Destroy(characterSelect[index].transform.GetChild(0).gameObject);
+                Destroy(characters[index].transform.GetChild(0).gameObject);
+                PlayerPrefs.SetString(characters[index].name, "bought");
                 buyButton.gameObject.SetActive(false);
-                selectButton.transform.position = characterSelect[index].transform.position + offsetButtons;
-                Load();
+                selectButton.gameObject.SetActive(true);
+                selectButton.transform.position = characters[index].transform.position + offsetButtons;
+                selector.transform.position = characters[index].transform.position + offsetButtons;
+                CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
+
             }
-            selectButton.gameObject.SetActive(true);
         }
     }
-    public void Load()
+    void CharacterBuyied()
     {
-        selector.transform.position = characterSelect[PlayerPrefs.GetInt("CharacterSelected")].transform.position;
-        CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
+        int ind = 1;
+        while (ind < characters.Length)
+        {
+            switch (PlayerPrefs.GetString(characters[ind].name))
+            {
+                case "bought":
+                    Destroy(characters[ind].transform.GetChild(0).gameObject);
+                    break;
+            }
+            ind++;
+        }
     }
     public void SelectCharacter()
     {
 
         PlayerPrefs.SetInt("CharacterSelected", index);
         selectButton.gameObject.SetActive(false);
+    }
+    public void Arrow(string arrow)
+    {
+        if (arrow == "Right")
+        {
+            if (index < characterSize)
+            {
+                index++;
+                if (index >= characterSize)
+                {
+                    index = 0;
+                }
+                Select(index);
+            }
+        }
+        else if (arrow == "Left")
+        {
+            if (index >= 0)
+            {
+                index--;
+                if (index < 0)
+                {
+                    index = characterSize - 1;
+                }
+                Select(index);
+            }
+        }
+    }
+    public void Load()
+    {
+        CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
+        selector.transform.position = characters[PlayerPrefs.GetInt("CharacterSelected")].transform.position + offsetButtons;
+        index = PlayerPrefs.GetInt("CharacterSelected");
+        if (PlayerPrefs.HasKey("Lin") || PlayerPrefs.HasKey("Kag"))
+        {
+            CharacterBuyied();
+        }
     }
 }

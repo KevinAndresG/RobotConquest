@@ -23,8 +23,12 @@ public class MainMenu : MonoBehaviour
     }
     void Start()
     {
-        // SoundController.Instance.musicSource.Play();
-        CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
+        if (!PlayerPrefs.HasKey("TotalCoins"))
+        {
+            PlayerPrefs.SetInt("TotalCoins", 0);
+        }
+        else
+            CoinText.text = $"{PlayerPrefs.GetInt("TotalCoins")}";
         SoundController.Instance.Music(SceneManager.GetActiveScene().name);
         if (!PlayerPrefs.HasKey("SelectedSong"))
         {

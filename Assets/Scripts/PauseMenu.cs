@@ -46,7 +46,7 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
         SoundController.Instance.PlayEffect(5);
-        // GameManager.Instance.gamePaused = false;
+        GameManager.Instance.gamePaused = false;
     }
     public void Sound()
     {
